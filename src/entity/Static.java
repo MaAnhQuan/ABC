@@ -1,9 +1,11 @@
 package entity;
 
+import core.Game;
+
 public abstract class Static extends Entity{
 	
-	Static(int x, int y) {
-		super(x, y, 1);
+	public Static(Game game, float x, float y) {
+		super(game, x, y);
 		super.setAttackable(false);
 	}
 }

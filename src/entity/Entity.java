@@ -2,9 +2,12 @@ package entity;
 
 import java.awt.Graphics;
 
+import core.Game;
+
 public abstract class Entity {
 
-	protected int x, y, hp;
+	protected float x, y;
+	protected Game game;
 	
 	protected boolean attackable;
 	protected boolean moveable;
@@ -25,36 +28,28 @@ public abstract class Entity {
 		this.moveable = moveable;
 	}
 
-	Entity(int x, int y, int hp){
+	public Entity(Game game, float x, float y){
 		this.x = x;
 		this.y = y;
-		this.hp = hp;
+		this.game = game;
 	}
-
-	public int getX() {
+	
+	public float getX() {
 		return x;
 	}
 
-	public void setX(int x) {
+	public void setX(float x) {
 		this.x = x;
 	}
 
-	public int getY() {
+	public float getY() {
 		return y;
 	}
 
-	public void setY(int y) {
+	public void setY(float y) {
 		this.y = y;
 	}
 
-	public int getHp() {
-		return hp;
-	}
-
-	public void setHp(int hp) {
-		this.hp = hp;
-	}
-	
 	public abstract void update();
 	
 	public abstract void render(Graphics g);

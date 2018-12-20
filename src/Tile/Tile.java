@@ -3,32 +3,23 @@ package Tile;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-import entity.Entity;
-import entity.EntityManager;
-
 public abstract class Tile {
 	
 	public static Tile[] tileList = new Tile[200];
-	public static Tile grassTile = new GrassTile(0, 0);
+	public static Tile grassTile = new GrassTile();
+	public static Tile wallTile = new WallTile();
 
 	protected BufferedImage texture;
-	protected int x, y, id;
-	protected boolean accessible;
+	protected int id;
 
-	public Tile(BufferedImage texture, int x, int y, int id) {
+	public Tile(BufferedImage texture, int id) {
 		this.texture = texture;
 		this.id = id;
-		this.x = x;
-		this.y = y;
 		
 		tileList[id] = this;
 	}
 	
-	public Entity contain(EntityManager e) {
-		return e.getByPosition(this.x, this.y);
-	}
-	
-	public void render(Graphics g) {
+	public void render(Graphics g, int x, int y) {
 		g.drawImage(texture, x, y, null);
 	}
 
@@ -48,28 +39,4 @@ public abstract class Tile {
 		this.id = id;
 	}
 
-	public int getX() {
-		return x;
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
-	}
-
-	public boolean isAccessible() {
-		return accessible;
-	}
-
-	public void setAccessible(boolean accessible) {
-		this.accessible = accessible;
-	}
-	
 }

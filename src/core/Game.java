@@ -3,10 +3,13 @@ package core;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 
+import Tile.World;
 import entity.EntityManager;
-import entity.Wall;
+import entity.Player;
 import gfx.Assets;
+import gfx.Camera;
 import gfx.Window;
+import input.KeyManager;
 
 public class Game implements Runnable {
 	
@@ -21,23 +24,71 @@ public class Game implements Runnable {
 	private BufferStrategy bs;
 	private Graphics g;
 	
+	private Camera camera;
+	
+	private Player player;
 	private EntityManager entityManager;
+	private World world;
+	
+	private KeyManager keyManager;
 	
 	public Game(String title, int width, int height) {
 		this.width = width;
 		this.height = height;
 		this.title = title;
 		entityManager = new EntityManager();
-		Wall w = new Wall(32, 32);
-		entityManager.addEntity(w);
+		player = new Player(this, 32, 32);
+		world = new World(this);
+		keyManager = new KeyManager();
 	}
 	
+	public World getWorld() {
+		return world;
+	}
+
+	public void setWorld(World world) {
+		this.world = world;
+	}
+
 	private void init() {
 		window = new Window(title, width, height);
+		window.getFrame().addKeyListener(keyManager);
 		Assets.init();
+		
+		camera = new Camera(0, 0, this);
 	}
 	
+	public KeyManager getKeyManager() {
+		return keyManager;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public Camera getCamera() {
+		return camera;
+	}
+
+	public void setCamera(Camera camera) {
+		this.camera = camera;
+	}
+
 	private void update() {
+		keyManager.update();
+		player.update();
 		entityManager.update();
 	}
 	
@@ -51,6 +102,8 @@ public class Game implements Runnable {
 		//clear screen
 		g.clearRect(0, 0, width, height);
 		
+		world.render(g);
+		player.render(g);
 		entityManager.render(g);
 		
 		bs.show();
