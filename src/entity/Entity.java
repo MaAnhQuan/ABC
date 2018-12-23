@@ -1,6 +1,7 @@
 package entity;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 import core.Game;
 
@@ -8,6 +9,7 @@ public abstract class Entity {
 
 	protected float x, y;
 	protected Game game;
+	protected Rectangle bounds;
 	
 	protected boolean attackable;
 	protected boolean moveable;
@@ -32,6 +34,8 @@ public abstract class Entity {
 		this.x = x;
 		this.y = y;
 		this.game = game;
+		
+		bounds = new Rectangle(5, 5, 22, 22);
 	}
 	
 	public float getX() {

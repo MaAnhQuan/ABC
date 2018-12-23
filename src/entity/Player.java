@@ -9,21 +9,27 @@ public class Player extends Creature {
 
 	public Player(Game game, float x, float y) {
 		super(game, x, y);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void update() {
-		if(game.getKeyManager().up) {
-			y -= 1;
-		} else if (game.getKeyManager().down) {
-			y += 1;
-		} else if (game.getKeyManager().left) {
-			x -= 1;
-		} else if (game.getKeyManager().right) {
-			x += 1;
-		}
+		this.getInput();
+		move();
 		game.getCamera().focus(this);
+	}
+	
+	public void getInput() {
+		xMove = 0;
+		yMove = 0;
+		if(game.getKeyManager().up) {
+			yMove = -speed;
+		} else if (game.getKeyManager().down) {
+			yMove = speed;
+		} else if (game.getKeyManager().left) {
+			xMove = -speed;
+		} else if (game.getKeyManager().right) {
+			xMove = speed;
+		}
 	}
 
 	@Override

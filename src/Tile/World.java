@@ -4,6 +4,8 @@ import java.awt.Graphics;
 
 import core.Game;
 import entity.EntityManager;
+import entity.Guard;
+import entity.Player;
 import utils.Util;
 
 public class World {
@@ -13,9 +15,10 @@ public class World {
 	public EntityManager entityManager;
 	public Game game;
 
-	public World(Game game) {
-		loadWorld("textures/world/w1.txt");
+	public World(Game game, EntityManager entityManager) {
 		this.game = game;
+		this.entityManager = entityManager;
+		loadWorld("textures/world/w1.txt");
 	}
 
 	public void update() {
@@ -54,6 +57,18 @@ public class World {
 			for (int x = 0; x < width; x++) {
 				tiles[x][y] = Util.parseInt(tokens[(x + y * width) + 2]);
 			}
+		}
+		int pXSpawn = Util.parseInt(tokens[width * height + 2]);
+		int pYSpawn = Util.parseInt(tokens[width * height + 3]);
+		Player player = new Player(this.game, pXSpawn, pYSpawn);
+		this.entityManager.addEntity(player);
+		
+		int eCount = Util.parseInt(tokens[width * height + 4]);
+		for(int i = 0; i < eCount; i++) {
+			int xS = Util.parseInt(tokens[width * height + 5 + i*2]);
+			int yS = Util.parseInt(tokens[width * height + 6 + i*2]);
+			Guard guard = new Guard(this.game, xS, yS);
+			this.entityManager.addEntity(guard);
 		}
 	}
 }

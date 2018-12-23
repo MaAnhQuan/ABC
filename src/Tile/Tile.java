@@ -22,6 +22,10 @@ public abstract class Tile {
 	public void render(Graphics g, int x, int y) {
 		g.drawImage(texture, x, y, null);
 	}
+	
+	public boolean isSolid() {
+		return false;
+	}
 
 	public BufferedImage getTexture() {
 		return texture;

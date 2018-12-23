@@ -5,7 +5,6 @@ import java.awt.image.BufferStrategy;
 
 import Tile.World;
 import entity.EntityManager;
-import entity.Player;
 import gfx.Assets;
 import gfx.Camera;
 import gfx.Window;
@@ -25,8 +24,6 @@ public class Game implements Runnable {
 	private Graphics g;
 	
 	private Camera camera;
-	
-	private Player player;
 	private EntityManager entityManager;
 	private World world;
 	
@@ -37,8 +34,7 @@ public class Game implements Runnable {
 		this.height = height;
 		this.title = title;
 		entityManager = new EntityManager();
-		player = new Player(this, 32, 32);
-		world = new World(this);
+		world = new World(this, entityManager);
 		keyManager = new KeyManager();
 	}
 	
@@ -88,7 +84,6 @@ public class Game implements Runnable {
 
 	private void update() {
 		keyManager.update();
-		player.update();
 		entityManager.update();
 	}
 	
@@ -103,7 +98,6 @@ public class Game implements Runnable {
 		g.clearRect(0, 0, width, height);
 		
 		world.render(g);
-		player.render(g);
 		entityManager.render(g);
 		
 		bs.show();
@@ -120,26 +114,15 @@ public class Game implements Runnable {
 		long now;
 		long lastTime = System.nanoTime();
 		
-		long timer = 0;
-		int ticks = 0;
-		
 		while(running) {
 			now = System.nanoTime();
 			delta += (now - lastTime) / timePerUp;
-			timer += now - lastTime;
 			lastTime = now;
 			
 			if(delta >= 1) {
 				update();
 				render();
-				ticks++;
 				delta--;
-			}
-			
-			if(timer >= 1000000000) {
-				System.out.println(ticks);
-				ticks = 0;
-				timer = 0;
 			}
 		}
 		
