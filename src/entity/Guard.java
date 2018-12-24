@@ -37,7 +37,6 @@ public class Guard extends Creature {
 			checkDirect();
 			getNumOfDir();
 			getMove();
-			System.out.println(this.checkAvail() + " " + direct[1] + " " + direct[2] + " " + direct[3] + " " + direct[4] + " " + moving);
 		}
 	}
 	
@@ -51,10 +50,10 @@ public class Guard extends Creature {
 		if(!this.game.getWorld().getTile((int) x/32 + 1, (int) y/32).isSolid()) {
 			direct[3] = 1; 
 		}
-		if(!this.collisionWithTile((int) (x + 16)/32, (int) (y - 16)/32)) {
+		if(!this.game.getWorld().getTile((int) x/32, (int) y/32 - 1).isSolid()) {
 			direct[1] = 1; 
 		}
-		if(!this.collisionWithTile((int) (x + 16)/32, (int) (y + 48)/32)) {
+		if(!this.game.getWorld().getTile((int) x/32, (int) y/32 + 1).isSolid()) {
 			direct[4] = 1; 
 		}
 	}
@@ -104,11 +103,11 @@ public class Guard extends Creature {
 			}
 		} else {
 			if(direct[moving] == 1) {
-				return;
+				System.out.println(moving);
 			} else {
 				lastMove = moving;
 				for(int i = 1; i < 5; i++) {
-					if(direct[i] == 1 && i != lastMove) {
+					if(direct[i] == 1 && i != 5 - lastMove) {
 						moving = i;
 						break;
 					}
@@ -182,6 +181,7 @@ public class Guard extends Creature {
 				map.put(curr, currP);
 			}
 		}
+		printMap();
 	}
 	
 	private boolean checkPoint(float x, float y) {
@@ -195,6 +195,17 @@ public class Guard extends Creature {
 			sum += direct[i];
 		}
 		return sum;
+	}
+	
+	private void printMap() {
+		System.out.println();
+		System.out.println("abc:");
+		for(Point x : map.keySet()) {
+			String key = x.getX() + " " + x.getY();
+			int[] valI = map.get(x);
+			String val = valI[0] + " " + valI[1] + " " + valI[2] + " " + valI[3] + " " + valI[4] + " " + valI[5];
+			System.out.println("key: " + key + " val: " + val);
+		}
 	}
 
 	@Override
